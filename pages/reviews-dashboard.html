@@ -223,8 +223,10 @@
 
         /* Filter Components */
         .filter-panel {
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             background: transparent;
+            border: none;
+            box-shadow: none;
         }
 
         .filter-content {
@@ -238,7 +240,8 @@
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
+            padding: 8px 0;
         }
 
         .filter-component {
@@ -251,15 +254,15 @@
             color: #424242;
             border: 1px solid #e0e0e0;
             border-radius: 20px;
-            padding: 8px 16px;
-            font-size: 14px;
+            padding: 6px 12px;
+            font-size: 13px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
-            min-width: 80px;
+            gap: 6px;
+            min-width: 70px;
             justify-content: center;
         }
 
@@ -275,7 +278,7 @@
         }
 
         .filter-component-button .material-icons {
-            font-size: 16px;
+            font-size: 14px;
             transition: transform 0.2s ease;
         }
 
@@ -477,7 +480,7 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
                 <a href="reviews-list.html" class="nav-link">
-                    <span class="material-icons">list</span>
+                    <span class="material-icons">rate_review</span>
                     <span class="nav-text">All Reviews</span>
                 </a>
                 <a href="reviews-insights.html" class="nav-link">
@@ -493,7 +496,7 @@
                 <div class="app-bar-content">
                     <h1>
                         <span class="material-icons menu-icon" id="menu-toggle">menu</span>
-                        <span class="material-icons">rate_review</span>
+                        <span class="material-icons">dashboard</span>
                         Reviews Dashboard
                     </h1>
                     <div style="display: flex; align-items: center; gap: 16px;">
