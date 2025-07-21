@@ -102,6 +102,7 @@ class ReviewsManager {
         if (authorUrl.includes('google.com')) return 'Google';
         if (authorUrl.includes('Google.com')) return 'Google';
         if (authorUrl.includes('facebook.com')) return 'Facebook';
+        if (authorUrl.includes('ubereats.com')) return 'Uber Eats';
         return 'Other';
     }
 
