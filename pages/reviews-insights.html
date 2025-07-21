@@ -519,41 +519,201 @@
         }
 
         /* Topic Tags */
-        .topics-container {
-            padding: 20px 0;
+        .topics-dual-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .topics-dual-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .topics-section {
+            padding: 20px;
+            border-radius: 12px;
+            background: var(--md-surface-variant);
+        }
+
+        .topics-section.topics-positive {
+            background: linear-gradient(135deg, #e8f5e8, #f1f8e9);
+            border: 1px solid #c8e6c9;
+        }
+
+        .topics-section.topics-negative {
+            background: linear-gradient(135deg, #ffebee, #fce4ec);
+            border: 1px solid #ffcdd2;
+        }
+
+        .topics-section-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--md-on-surface);
+        }
+
+        .topics-section.topics-positive .topics-section-title {
+            color: #2e7d32;
+        }
+
+        .topics-section.topics-negative .topics-section-title {
+            color: #c62828;
         }
 
         .topics-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 16px;
+            gap: 8px;
         }
 
         .topic-tag {
-            background: var(--md-primary);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 13px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            border: 1px solid transparent;
         }
 
-        .topic-tag:hover {
-            background: var(--md-primary-dark);
+        .topics-positive .topic-tag {
+            background: #4caf50;
+            color: white;
+            border-color: #45a049;
+        }
+
+        .topics-positive .topic-tag:hover {
+            background: #45a049;
+            transform: translateY(-1px);
+        }
+
+        .topics-negative .topic-tag {
+            background: #f44336;
+            color: white;
+            border-color: #e53935;
+        }
+
+        .topics-negative .topic-tag:hover {
+            background: #e53935;
             transform: translateY(-1px);
         }
 
         .topic-count {
             background: rgba(255, 255, 255, 0.2);
-            padding: 2px 8px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 11px;
+        }
+
+        /* Topic Recommendation Card */
+        .topic-recommendation-card {
+            border-left: 4px solid var(--md-primary);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .topic-recommendation-card .card-header {
+            position: relative;
+            padding-right: 60px;
+        }
+
+        .close-recommendation {
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--md-on-surface-variant);
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .close-recommendation:hover {
+            background-color: rgba(0, 0, 0, 0.04);
+        }
+
+        .recommendation-content {
+            line-height: 1.6;
+        }
+
+        .recommendation-section {
+            margin-bottom: 20px;
+        }
+
+        .recommendation-section h4 {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--md-on-surface);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .recommendation-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendation-list li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            color: var(--md-on-surface);
+        }
+
+        .recommendation-list li::before {
+            content: '•';
+            position: absolute;
+            left: 8px;
+            color: var(--md-primary);
+            font-weight: bold;
+        }
+
+        .recommendation-priority {
+            display: inline-block;
+            padding: 4px 8px;
             border-radius: 12px;
             font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-left: 8px;
+        }
+
+        .priority-high {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .priority-medium {
+            background: #fff8e1;
+            color: #f57c00;
+        }
+
+        .priority-low {
+            background: #e8f5e8;
+            color: #2e7d32;
         }
 
         /* Performance Metrics */
@@ -1005,6 +1165,57 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Topic Analysis -->
+                <div class="md-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <span class="material-icons">topic</span>
+                            Most Mentioned Topics
+                        </h3>
+                        <p class="card-subtitle">What customers are talking about most</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="topics-dual-container">
+                            <div class="topics-section topics-positive">
+                                <h4 class="topics-section-title">
+                                    <span class="material-icons">thumb_up</span>
+                                    Most Positive Mentions
+                                </h4>
+                                <div class="topics-grid" id="positiveTopicsGrid">
+                                    <!-- Positive topics will be populated here -->
+                                </div>
+                            </div>
+                            <div class="topics-section topics-negative">
+                                <h4 class="topics-section-title">
+                                    <span class="material-icons">thumb_down</span>
+                                    Most Negative Mentions
+                                </h4>
+                                <div class="topics-grid" id="negativeTopicsGrid">
+                                    <!-- Negative topics will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic Recommendation Card (Hidden by default) -->
+                <div class="md-card topic-recommendation-card" id="topicRecommendationCard" style="display: none;">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <span class="material-icons">lightbulb</span>
+                            Recommendation for "<span id="selectedTopicName"></span>"
+                        </h3>
+                        <button class="close-recommendation" id="closeRecommendation">
+                            <span class="material-icons">close</span>
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="recommendation-content" id="recommendationContent">
+                            <!-- Recommendation content will be populated here -->
+                        </div>
+                    </div>
+                </div>
                 
                 <!-- Sentiment Trends Chart -->
                 <div class="md-card">
@@ -1018,24 +1229,6 @@
                     <div class="card-content">
                         <div class="chart-container">
                             <canvas id="sentimentTrendChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Topic Analysis -->
-                <div class="md-card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <span class="material-icons">topic</span>
-                            Most Mentioned Topics
-                        </h3>
-                        <p class="card-subtitle">What customers are talking about most</p>
-                    </div>
-                    <div class="card-content">
-                        <div class="topics-container">
-                            <div class="topics-grid" id="topicsGrid">
-                                <!-- Topics will be populated here -->
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1245,24 +1438,349 @@
             }
 
             populateTopics() {
-                const topics = [
-                    { name: 'Service Quality', count: 18 },
-                    { name: 'Coffee Quality', count: 15 },
-                    { name: 'Atmosphere', count: 12 },
-                    { name: 'Staff Friendliness', count: 10 },
-                    { name: 'Value for Money', count: 8 },
-                    { name: 'Cleanliness', count: 7 },
-                    { name: 'Wait Time', count: 5 },
-                    { name: 'Location', count: 4 }
+                const positiveTopics = [
+                    { name: 'Excellent Coffee', count: 24 },
+                    { name: 'Friendly Staff', count: 18 },
+                    { name: 'Great Atmosphere', count: 16 },
+                    { name: 'Fresh Pastries', count: 14 },
+                    { name: 'Comfortable Seating', count: 12 },
+                    { name: 'Good WiFi', count: 8 }
                 ];
 
-                const container = document.getElementById('topicsGrid');
-                container.innerHTML = topics.map(topic => `
-                    <div class="topic-tag">
+                const negativeTopics = [
+                    { name: 'Long Wait Times', count: 15 },
+                    { name: 'Burnt Coffee', count: 12 },
+                    { name: 'Rude Staff', count: 8 },
+                    { name: 'Overpriced', count: 7 },
+                    { name: 'Noisy Environment', count: 5 },
+                    { name: 'Dirty Tables', count: 4 }
+                ];
+
+                const positiveContainer = document.getElementById('positiveTopicsGrid');
+                const negativeContainer = document.getElementById('negativeTopicsGrid');
+
+                positiveContainer.innerHTML = positiveTopics.map(topic => `
+                    <div class="topic-tag" data-topic="${topic.name}" data-sentiment="positive">
                         ${topic.name}
                         <span class="topic-count">${topic.count}</span>
                     </div>
                 `).join('');
+
+                negativeContainer.innerHTML = negativeTopics.map(topic => `
+                    <div class="topic-tag" data-topic="${topic.name}" data-sentiment="negative">
+                        ${topic.name}
+                        <span class="topic-count">${topic.count}</span>
+                    </div>
+                `).join('');
+
+                // Add click event listeners to all topic tags
+                this.setupTopicClickHandlers();
+            }
+
+            setupTopicClickHandlers() {
+                document.querySelectorAll('.topic-tag').forEach(tag => {
+                    tag.addEventListener('click', (e) => {
+                        const topicName = tag.getAttribute('data-topic');
+                        const sentiment = tag.getAttribute('data-sentiment');
+                        this.showTopicRecommendation(topicName, sentiment);
+                    });
+                });
+
+                // Setup close button handler
+                document.getElementById('closeRecommendation')?.addEventListener('click', () => {
+                    this.hideTopicRecommendation();
+                });
+            }
+
+            showTopicRecommendation(topicName, sentiment) {
+                const card = document.getElementById('topicRecommendationCard');
+                const nameSpan = document.getElementById('selectedTopicName');
+                const contentDiv = document.getElementById('recommendationContent');
+
+                nameSpan.textContent = topicName;
+                contentDiv.innerHTML = this.getRecommendationContent(topicName, sentiment);
+
+                card.style.display = 'block';
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            hideTopicRecommendation() {
+                const card = document.getElementById('topicRecommendationCard');
+                card.style.display = 'none';
+            }
+
+            getRecommendationContent(topicName, sentiment) {
+                const recommendations = {
+                    // Positive topics - maintain and amplify
+                    'Excellent Coffee': {
+                        type: 'positive',
+                        content: `
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">trending_up</span>Maintain Excellence</h4>
+                                <ul class="recommendation-list">
+                                    <li>Continue sourcing high-quality beans from current suppliers</li>
+                                    <li>Maintain consistent brewing techniques and equipment calibration</li>
+                                    <li>Consider offering coffee tasting sessions to showcase quality</li>
+                                    <li>Train new staff on your coffee preparation standards</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">campaign</span>Marketing Opportunities</h4>
+                                <ul class="recommendation-list">
+                                    <li>Feature customer testimonials about coffee quality in marketing</li>
+                                    <li>Highlight your coffee expertise on social media</li>
+                                    <li>Consider offering specialty coffee subscriptions</li>
+                                </ul>
+                            </div>
+                        `
+                    },
+                    'Friendly Staff': {
+                        type: 'positive',
+                        content: `
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">people</span>Staff Development</h4>
+                                <ul class="recommendation-list">
+                                    <li>Recognize and reward staff members mentioned in positive reviews</li>
+                                    <li>Use positive feedback in staff training as examples</li>
+                                    <li>Consider implementing a customer service excellence program</li>
+                                    <li>Share positive customer comments with the entire team</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">star</span>Leverage This Strength</h4>
+                                <ul class="recommendation-list">
+                                    <li>Encourage customers to mention staff by name in reviews</li>
+                                    <li>Feature staff stories and personalities in marketing</li>
+                                </ul>
+                            </div>
+                        `
+                    },
+                    'Great Atmosphere': {
+                        type: 'positive',
+                        content: `
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">home</span>Maintain Ambiance</h4>
+                                <ul class="recommendation-list">
+                                    <li>Keep current music, lighting, and decor that customers love</li>
+                                    <li>Regular maintenance of furniture and fixtures</li>
+                                    <li>Consider seasonal decorations while maintaining core atmosphere</li>
+                                    <li>Monitor noise levels during peak hours</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">photo_camera</span>Showcase Your Space</h4>
+                                <ul class="recommendation-list">
+                                    <li>Share photos of your atmosphere on social media</li>
+                                    <li>Encourage customers to tag your location in posts</li>
+                                </ul>
+                            </div>
+                        `
+                    },
+                    'Fresh Pastries': {
+                        type: 'positive',
+                        content: `
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">bakery_dining</span>Quality Maintenance</h4>
+                                <ul class="recommendation-list">
+                                    <li>Maintain current baking schedule and freshness standards</li>
+                                    <li>Consider expanding popular pastry offerings</li>
+                                    <li>Highlight daily fresh baking in marketing</li>
+                                    <li>Track which pastries get the most positive mentions</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">add_circle</span>Growth Opportunities</h4>
+                                <ul class="recommendation-list">
+                                    <li>Introduce seasonal pastry specials</li>
+                                    <li>Consider offering pastry pre-orders for busy customers</li>
+                                </ul>
+                            </div>
+                        `
+                    },
+                    'Comfortable Seating': {
+                        type: 'positive',
+                        content: `
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">chair</span>Maintain Comfort</h4>
+                                <ul class="recommendation-list">
+                                    <li>Regular maintenance and cleaning of seating areas</li>
+                                    <li>Monitor wear and replace cushions/furniture as needed</li>
+                                    <li>Keep current seating arrangement that customers appreciate</li>
+                                    <li>Ensure adequate spacing between tables</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">work</span>Cater to Different Needs</h4>
+                                <ul class="recommendation-list">
+                                    <li>Maintain variety of seating options (individual, groups, work-friendly)</li>
+                                    <li>Consider adding charging stations near popular seating</li>
+                                </ul>
+                            </div>
+                        `
+                    },
+                    'Good WiFi': {
+                        type: 'positive',
+                        content: `
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">wifi</span>Technical Maintenance</h4>
+                                <ul class="recommendation-list">
+                                    <li>Regular speed tests and network monitoring</li>
+                                    <li>Ensure consistent coverage throughout the space</li>
+                                    <li>Have backup internet connection for reliability</li>
+                                    <li>Keep WiFi password easily accessible to customers</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">business_center</span>Remote Worker Friendly</h4>
+                                <ul class="recommendation-list">
+                                    <li>Market as a remote work-friendly location</li>
+                                    <li>Consider designated quiet zones for working</li>
+                                </ul>
+                            </div>
+                        `
+                    },
+                    // Negative topics - address and improve
+                    'Long Wait Times': {
+                        type: 'negative',
+                        content: `
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">schedule</span>Immediate Actions <span class="recommendation-priority priority-high">High Priority</span></h4>
+                                <ul class="recommendation-list">
+                                    <li>Analyze peak hours and staff accordingly</li>
+                                    <li>Implement order-ahead system or mobile app</li>
+                                    <li>Streamline menu during busy periods</li>
+                                    <li>Train staff on efficient order processing</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">speed</span>Process Improvements</h4>
+                                <ul class="recommendation-list">
+                                    <li>Review and optimize workflow in kitchen and counter areas</li>
+                                    <li>Consider adding self-service options</li>
+                                    <li>Implement queue management system</li>
+                                    <li>Set realistic time expectations for customers</li>
+                                </ul>
+                            </div>
+                        `
+                    },
+                    'Burnt Coffee': {
+                        type: 'negative',
+                        content: `
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">local_cafe</span>Quality Control <span class="recommendation-priority priority-high">High Priority</span></h4>
+                                <ul class="recommendation-list">
+                                    <li>Immediate equipment calibration and maintenance check</li>
+                                    <li>Retrain staff on proper brewing temperatures and timing</li>
+                                    <li>Implement quality checks throughout the day</li>
+                                    <li>Replace coffee that's been sitting too long</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">school</span>Staff Training</h4>
+                                <ul class="recommendation-list">
+                                    <li>Comprehensive barista training program</li>
+                                    <li>Regular taste testing with staff</li>
+                                    <li>Clear procedures for coffee preparation</li>
+                                </ul>
+                            </div>
+                        `
+                    },
+                    'Rude Staff': {
+                        type: 'negative',
+                        content: `
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">support_agent</span>Service Recovery <span class="recommendation-priority priority-high">High Priority</span></h4>
+                                <ul class="recommendation-list">
+                                    <li>Address specific incidents mentioned in reviews</li>
+                                    <li>Implement customer service training immediately</li>
+                                    <li>Establish clear service standards and expectations</li>
+                                    <li>Regular staff meetings to discuss customer feedback</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">psychology</span>Culture Improvement</h4>
+                                <ul class="recommendation-list">
+                                    <li>Foster positive workplace culture</li>
+                                    <li>Recognize and reward excellent customer service</li>
+                                    <li>Provide stress management support during busy periods</li>
+                                </ul>
+                            </div>
+                        `
+                    },
+                    'Overpriced': {
+                        type: 'negative',
+                        content: `
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">attach_money</span>Value Communication <span class="recommendation-priority priority-medium">Medium Priority</span></h4>
+                                <ul class="recommendation-list">
+                                    <li>Better communicate the value proposition (quality, sourcing, etc.)</li>
+                                    <li>Consider introducing value-priced options</li>
+                                    <li>Highlight what makes your products worth the price</li>
+                                    <li>Offer loyalty programs or discounts</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">analytics</span>Market Analysis</h4>
+                                <ul class="recommendation-list">
+                                    <li>Compare pricing with local competitors</li>
+                                    <li>Survey customers on perceived value</li>
+                                    <li>Consider portion sizes and product quality</li>
+                                </ul>
+                            </div>
+                        `
+                    },
+                    'Noisy Environment': {
+                        type: 'negative',
+                        content: `
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">volume_down</span>Noise Control <span class="recommendation-priority priority-medium">Medium Priority</span></h4>
+                                <ul class="recommendation-list">
+                                    <li>Install sound-absorbing materials (rugs, panels, curtains)</li>
+                                    <li>Adjust music volume throughout the day</li>
+                                    <li>Create designated quiet zones</li>
+                                    <li>Train staff to manage noise levels</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">design_services</span>Space Design</h4>
+                                <ul class="recommendation-list">
+                                    <li>Consider acoustic design improvements</li>
+                                    <li>Separate high-traffic areas from quiet seating</li>
+                                    <li>Use furniture and layout to create natural sound barriers</li>
+                                </ul>
+                            </div>
+                        `
+                    },
+                    'Dirty Tables': {
+                        type: 'negative',
+                        content: `
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">cleaning_services</span>Cleanliness Standards <span class="recommendation-priority priority-high">High Priority</span></h4>
+                                <ul class="recommendation-list">
+                                    <li>Implement more frequent table cleaning schedule</li>
+                                    <li>Assign specific staff members to monitor cleanliness</li>
+                                    <li>Use proper cleaning supplies and techniques</li>
+                                    <li>Check tables immediately after customers leave</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-section">
+                                <h4><span class="material-icons">checklist</span>Quality Control</h4>
+                                <ul class="recommendation-list">
+                                    <li>Create cleaning checklists for staff</li>
+                                    <li>Regular management inspections</li>
+                                    <li>Customer feedback system for cleanliness issues</li>
+                                </ul>
+                            </div>
+                        `
+                    }
+                };
+
+                return recommendations[topicName]?.content || `
+                    <div class="recommendation-section">
+                        <h4><span class="material-icons">info</span>General Recommendation</h4>
+                        <p>Monitor this topic closely and gather more specific feedback to develop targeted improvement strategies.</p>
+                    </div>
+                `;
             }
 
             setupEventListeners() {
