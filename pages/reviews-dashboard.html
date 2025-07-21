@@ -221,152 +221,188 @@
             }
         }
 
-        /* Filter Panel */
+        /* Filter Components */
         .filter-panel {
             margin-bottom: 24px;
-            background: var(--md-surface);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .filter-header {
-            padding: 12px 16px;
-            background: var(--md-surface);
-            border-bottom: 1px solid var(--md-outline);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: background-color 0.2s;
-            min-height: 48px;
-        }
-
-        .filter-header:hover {
-            background: rgba(25, 118, 210, 0.04);
-        }
-
-        .filter-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--md-on-surface);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .filter-toggle {
-            transition: transform 0.3s ease;
-        }
-
-        .filter-toggle.expanded {
-            transform: rotate(180deg);
+            background: transparent;
         }
 
         .filter-content {
-            padding: 16px;
-            transition: all 0.3s ease;
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-        }
-
-        .filter-content.expanded {
-            max-height: 500px;
+            padding: 0;
             opacity: 1;
+            max-height: none;
+            overflow: visible;
         }
 
-        @media (max-width: 767px) {
-            .filter-content.expanded {
-                max-height: 800px;
-            }
-        }
-
-        .filter-row {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        @media (min-width: 768px) {
-            .filter-row {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        .filter-field {
+        .filter-components-container {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
+            align-items: center;
             gap: 12px;
         }
 
-        .filter-label {
-            font-size: 12px;
+        .filter-component {
+            position: relative;
+            display: inline-block;
+        }
+
+        .filter-component-button {
+            background: #f5f5f5;
+            color: #424242;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
             font-weight: 500;
-            color: var(--md-on-surface-variant);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .checkbox-item {
+            cursor: pointer;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             gap: 8px;
-            cursor: pointer;
-            padding: 4px 0;
-            transition: background-color 0.2s;
-            border-radius: 4px;
+            min-width: 80px;
+            justify-content: center;
         }
 
-        .checkbox-item:hover {
+        .filter-component-button:hover {
+            background: #eeeeee;
+            border-color: #d0d0d0;
+        }
+
+        .filter-component-button.active {
+            background: var(--md-primary);
+            color: white;
+            border-color: var(--md-primary);
+        }
+
+        .filter-component-button .material-icons {
+            font-size: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .filter-component-button.open .material-icons {
+            transform: rotate(180deg);
+        }
+
+        .filter-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--md-surface);
+            border-radius: 8px;
+            box-shadow: var(--md-elevation-3);
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            margin-top: 4px;
+            min-width: 200px;
+            max-width: 300px;
+        }
+
+        .filter-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .filter-dropdown-content {
+            padding: 12px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            font-size: 14px;
+        }
+
+        .filter-option:hover {
             background: rgba(25, 118, 210, 0.04);
         }
 
-        .filter-checkbox {
-            width: 18px;
-            height: 18px;
+        .filter-option-checkbox {
+            width: 16px;
+            height: 16px;
             border: 2px solid var(--md-outline);
-            border-radius: 4px;
+            border-radius: 3px;
             background: var(--md-surface);
             cursor: pointer;
             transition: all 0.2s;
             position: relative;
+            flex-shrink: 0;
         }
 
-        .filter-checkbox:checked {
+        .filter-option-checkbox:checked {
             background: var(--md-primary);
             border-color: var(--md-primary);
         }
 
-        .filter-checkbox:checked::after {
+        .filter-option-checkbox:checked::after {
             content: '✓';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             color: white;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: bold;
         }
 
-        .checkbox-label {
-            font-size: 14px;
+        .filter-option-label {
             color: var(--md-on-surface);
             cursor: pointer;
             user-select: none;
+            flex: 1;
         }
 
         .star-rating {
             color: #ff9800;
-            font-size: 16px;
+            font-size: 14px;
             margin-right: 4px;
+        }
+
+        /* Filter overlay to close dropdowns when clicking outside */
+        .filter-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            display: none;
+        }
+
+        .filter-overlay.active {
+            display: block;
+        }
+
+        @media (max-width: 767px) {
+            .filter-components-container {
+                gap: 8px;
+            }
+            
+            .filter-component-button {
+                padding: 6px 12px;
+                font-size: 13px;
+                min-width: 70px;
+            }
+            
+            .filter-dropdown {
+                left: 50%;
+                transform: translateX(-50%) translateY(-10px);
+                min-width: 250px;
+            }
+            
+            .filter-dropdown.open {
+                transform: translateX(-50%) translateY(0);
+            }
         }
 
         /* KPI Cards */
@@ -387,6 +423,25 @@
 
         .kpi-card.active .stat-value {
             color: var(--md-primary-dark);
+        }
+
+        .stat-value-suffix {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--md-on-surface-variant);
+        }
+
+        /* Stats Grid Responsive */
+        @media (max-width: 767px) {
+            .stats-grid[style*="repeat(3, 1fr)"] {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .stats-grid[style*="repeat(3, 1fr)"] {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
         }
 
         /* Status Tags */
@@ -452,77 +507,91 @@
             <main class="main-content">
                 <!-- Filter Panel -->
                 <div class="filter-panel">
-                    <div class="filter-header" id="filterToggle">
-                        <div class="filter-title">
-                            <span class="material-icons">filter_list</span>
-                            Filters
-                        </div>
-                        <span class="material-icons filter-toggle" id="filterIcon">expand_more</span>
-                    </div>
                     <div class="filter-content" id="filterContent">
-                        <div class="filter-row">
-                            <div class="filter-field">
-                                <label class="filter-label">Location</label>
-                                <div class="checkbox-group">
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="location-shop-a" class="filter-checkbox" value="Shop A">
-                                        <label for="location-shop-a" class="checkbox-label">Shop A</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="location-shop-b" class="filter-checkbox" value="Shop B">
-                                        <label for="location-shop-b" class="checkbox-label">Shop B</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="location-shop-c" class="filter-checkbox" value="Shop C">
-                                        <label for="location-shop-c" class="checkbox-label">Shop C</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="filter-field">
-                                <label class="filter-label">Rating</label>
-                                <div class="checkbox-group">
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="rating-5" class="filter-checkbox" value="5">
-                                        <label for="rating-5" class="checkbox-label">
-                                            <span class="star-rating">★★★★★</span>5 Stars
-                                        </label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="rating-4" class="filter-checkbox" value="4">
-                                        <label for="rating-4" class="checkbox-label">
-                                            <span class="star-rating">★★★★☆</span>4 Stars
-                                        </label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="rating-3" class="filter-checkbox" value="3">
-                                        <label for="rating-3" class="checkbox-label">
-                                            <span class="star-rating">★★★☆☆</span>3 Stars
-                                        </label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="rating-2" class="filter-checkbox" value="2">
-                                        <label for="rating-2" class="checkbox-label">
-                                            <span class="star-rating">★★☆☆☆</span>2 Stars
-                                        </label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="rating-1" class="filter-checkbox" value="1">
-                                        <label for="rating-1" class="checkbox-label">
-                                            <span class="star-rating">★☆☆☆☆</span>1 Star
-                                        </label>
+                        <div class="filter-components-container">
+                            <span class="material-icons" style="color: var(--md-on-surface-variant); margin-right: 12px;">filter_list</span>
+                            <!-- Location Filter -->
+                            <div class="filter-component">
+                                <button class="filter-component-button" id="locationFilter">
+                                    Location
+                                    <span class="material-icons">expand_more</span>
+                                </button>
+                                <div class="filter-dropdown" id="locationDropdown">
+                                    <div class="filter-dropdown-content">
+                                        <div class="filter-option" data-filter="location" data-value="Shop A">
+                                            <input type="checkbox" id="location-shop-a" class="filter-option-checkbox" value="Shop A">
+                                            <label for="location-shop-a" class="filter-option-label">Shop A</label>
+                                        </div>
+                                        <div class="filter-option" data-filter="location" data-value="Shop B">
+                                            <input type="checkbox" id="location-shop-b" class="filter-option-checkbox" value="Shop B">
+                                            <label for="location-shop-b" class="filter-option-label">Shop B</label>
+                                        </div>
+                                        <div class="filter-option" data-filter="location" data-value="Shop C">
+                                            <input type="checkbox" id="location-shop-c" class="filter-option-checkbox" value="Shop C">
+                                            <label for="location-shop-c" class="filter-option-label">Shop C</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="filter-field">
-                                <label class="filter-label">Platform</label>
-                                <div class="checkbox-group">
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="platform-google" class="filter-checkbox" value="Google">
-                                        <label for="platform-google" class="checkbox-label">Google</label>
+
+                            <!-- Rating Filter -->
+                            <div class="filter-component">
+                                <button class="filter-component-button" id="ratingFilter">
+                                    Rating
+                                    <span class="material-icons">expand_more</span>
+                                </button>
+                                <div class="filter-dropdown" id="ratingDropdown">
+                                    <div class="filter-dropdown-content">
+                                        <div class="filter-option" data-filter="rating" data-value="5">
+                                            <input type="checkbox" id="rating-5" class="filter-option-checkbox" value="5">
+                                            <label for="rating-5" class="filter-option-label">
+                                                <span class="star-rating">★★★★★</span>5 Stars
+                                            </label>
+                                        </div>
+                                        <div class="filter-option" data-filter="rating" data-value="4">
+                                            <input type="checkbox" id="rating-4" class="filter-option-checkbox" value="4">
+                                            <label for="rating-4" class="filter-option-label">
+                                                <span class="star-rating">★★★★☆</span>4 Stars
+                                            </label>
+                                        </div>
+                                        <div class="filter-option" data-filter="rating" data-value="3">
+                                            <input type="checkbox" id="rating-3" class="filter-option-checkbox" value="3">
+                                            <label for="rating-3" class="filter-option-label">
+                                                <span class="star-rating">★★★☆☆</span>3 Stars
+                                            </label>
+                                        </div>
+                                        <div class="filter-option" data-filter="rating" data-value="2">
+                                            <input type="checkbox" id="rating-2" class="filter-option-checkbox" value="2">
+                                            <label for="rating-2" class="filter-option-label">
+                                                <span class="star-rating">★★☆☆☆</span>2 Stars
+                                            </label>
+                                        </div>
+                                        <div class="filter-option" data-filter="rating" data-value="1">
+                                            <input type="checkbox" id="rating-1" class="filter-option-checkbox" value="1">
+                                            <label for="rating-1" class="filter-option-label">
+                                                <span class="star-rating">★☆☆☆☆</span>1 Star
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="platform-facebook" class="filter-checkbox" value="Facebook">
-                                        <label for="platform-facebook" class="checkbox-label">Facebook</label>
+                                </div>
+                            </div>
+
+                            <!-- Platform Filter -->
+                            <div class="filter-component">
+                                <button class="filter-component-button" id="platformFilter">
+                                    Platform
+                                    <span class="material-icons">expand_more</span>
+                                </button>
+                                <div class="filter-dropdown" id="platformDropdown">
+                                    <div class="filter-dropdown-content">
+                                        <div class="filter-option" data-filter="platform" data-value="Google">
+                                            <input type="checkbox" id="platform-google" class="filter-option-checkbox" value="Google">
+                                            <label for="platform-google" class="filter-option-label">Google</label>
+                                        </div>
+                                        <div class="filter-option" data-filter="platform" data-value="Facebook">
+                                            <input type="checkbox" id="platform-facebook" class="filter-option-checkbox" value="Facebook">
+                                            <label for="platform-facebook" class="filter-option-label">Facebook</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -530,10 +599,21 @@
                     </div>
                 </div>
 
+                <!-- Filter overlay to close dropdowns when clicking outside -->
+                <div class="filter-overlay" id="filterOverlay"></div>
+
 
 
                 <!-- New KPI Cards -->
-                <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 24px;">
+                <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 24px;">
+                    <div class="md-card stat-card kpi-card" id="avgRatingCard" style="cursor: pointer;">
+                        <div class="stat-label">Average Rating</div>
+                        <div class="stat-value" id="avgRatingValue">4.2 <span class="stat-value-suffix">/ 5.0</span></div>
+                        <div class="stat-change positive">
+                            <span class="material-icons" style="font-size: 16px;">star</span>
+                            Overall rating
+                        </div>
+                    </div>
                     <div class="md-card stat-card kpi-card" id="newReviewsCard" style="cursor: pointer;">
                         <div class="stat-label">Recent Reviews</div>
                         <div class="stat-value" id="newReviewsCount">3</div>
@@ -758,6 +838,11 @@
                 const newReviewsCount = this.reviews.filter(review => review.isNew).length;
                 const noResponseCount = this.reviews.filter(review => !review.has_response).length;
                 
+                // Calculate average rating
+                const totalRating = this.reviews.reduce((sum, review) => sum + review.rating, 0);
+                const averageRating = this.reviews.length > 0 ? totalRating / this.reviews.length : 0;
+                
+                document.getElementById('avgRatingValue').innerHTML = `${averageRating.toFixed(1)} <span class="stat-value-suffix">/ 5.0</span>`;
                 document.getElementById('newReviewsCount').textContent = newReviewsCount;
                 document.getElementById('noResponseCount').textContent = noResponseCount;
             }
@@ -800,17 +885,8 @@
             }
 
             setupEventListeners() {
-                // Filter toggle functionality
-                document.getElementById('filterToggle')?.addEventListener('click', () => {
-                    this.toggleFilters();
-                });
-
-                // Checkbox filter event listeners
-                document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
-                    checkbox.addEventListener('change', () => {
-                        this.applyFilters();
-                    });
-                });
+                // Setup filter component event listeners
+                this.setupFilterComponents();
 
                 // KPI card click handlers
                 document.getElementById('newReviewsCard')?.addEventListener('click', () => {
@@ -825,6 +901,105 @@
                 document.querySelector('.fab')?.addEventListener('click', () => {
                     this.showQuickActions();
                 });
+            }
+
+            setupFilterComponents() {
+                const filterComponents = ['location', 'rating', 'platform'];
+                
+                filterComponents.forEach(filterType => {
+                    const button = document.getElementById(`${filterType}Filter`);
+                    const dropdown = document.getElementById(`${filterType}Dropdown`);
+                    
+                    if (button && dropdown) {
+                        // Toggle dropdown on button click
+                        button.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            this.toggleFilterDropdown(filterType);
+                        });
+                        
+                        // Prevent dropdown from closing when clicking inside
+                        dropdown.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                        });
+                    }
+                });
+
+                // Checkbox filter event listeners
+                document.querySelectorAll('.filter-option-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', () => {
+                        this.updateFilterButton(checkbox);
+                        this.applyFilters();
+                    });
+                });
+
+                // Filter option click handlers (to toggle checkboxes)
+                document.querySelectorAll('.filter-option').forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        if (e.target.type !== 'checkbox' && e.target.tagName !== 'LABEL') {
+                            const checkbox = option.querySelector('.filter-option-checkbox');
+                            if (checkbox) {
+                                checkbox.checked = !checkbox.checked;
+                                this.updateFilterButton(checkbox);
+                                this.applyFilters();
+                            }
+                        }
+                    });
+                });
+
+                // Close dropdowns when clicking outside
+                document.getElementById('filterOverlay')?.addEventListener('click', () => {
+                    this.closeAllDropdowns();
+                });
+
+                // Close dropdowns when clicking outside the filter area
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.filter-component')) {
+                        this.closeAllDropdowns();
+                    }
+                });
+            }
+
+            toggleFilterDropdown(filterType) {
+                const button = document.getElementById(`${filterType}Filter`);
+                const dropdown = document.getElementById(`${filterType}Dropdown`);
+                const overlay = document.getElementById('filterOverlay');
+                
+                // Close all other dropdowns first
+                this.closeAllDropdowns();
+                
+                // Toggle current dropdown
+                const isOpen = dropdown.classList.contains('open');
+                if (!isOpen) {
+                    dropdown.classList.add('open');
+                    button.classList.add('open');
+                    overlay.classList.add('active');
+                }
+            }
+
+            closeAllDropdowns() {
+                document.querySelectorAll('.filter-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('open');
+                });
+                document.querySelectorAll('.filter-component-button').forEach(button => {
+                    button.classList.remove('open');
+                });
+                const overlay = document.getElementById('filterOverlay');
+                if (overlay) {
+                    overlay.classList.remove('active');
+                }
+            }
+
+            updateFilterButton(checkbox) {
+                const filterType = checkbox.closest('.filter-component').querySelector('.filter-component-button').id.replace('Filter', '');
+                const button = document.getElementById(`${filterType}Filter`);
+                const checkedBoxes = document.querySelectorAll(`#${filterType}Dropdown .filter-option-checkbox:checked`);
+                
+                // Update button appearance based on selection
+                if (checkedBoxes.length > 0) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
             }
 
             filterByNew() {
@@ -865,10 +1040,10 @@
                 this.currentFilter = 'all';
                 this.updateCardStates();
                 
-                // Get selected filter values
-                const selectedPlatforms = Array.from(document.querySelectorAll('input[id^="platform-"]:checked')).map(cb => cb.value);
-                const selectedRatings = Array.from(document.querySelectorAll('input[id^="rating-"]:checked')).map(cb => parseInt(cb.value));
-                const selectedLocations = Array.from(document.querySelectorAll('input[id^="location-"]:checked')).map(cb => cb.value);
+                // Get selected filter values using the new checkbox class
+                const selectedPlatforms = Array.from(document.querySelectorAll('#platformDropdown .filter-option-checkbox:checked')).map(cb => cb.value);
+                const selectedRatings = Array.from(document.querySelectorAll('#ratingDropdown .filter-option-checkbox:checked')).map(cb => parseInt(cb.value));
+                const selectedLocations = Array.from(document.querySelectorAll('#locationDropdown .filter-option-checkbox:checked')).map(cb => cb.value);
                 
                 console.log('Applying filters:', { selectedPlatforms, selectedRatings, selectedLocations });
                 console.log('Total reviews before filtering:', this.reviews.length);
@@ -901,22 +1076,7 @@
 
 
 
-            toggleFilters() {
-                const filterContent = document.getElementById('filterContent');
-                const filterIcon = document.getElementById('filterIcon');
-                
-                if (filterContent && filterIcon) {
-                    const isExpanded = filterContent.classList.contains('expanded');
-                    
-                    if (isExpanded) {
-                        filterContent.classList.remove('expanded');
-                        filterIcon.classList.remove('expanded');
-                    } else {
-                        filterContent.classList.add('expanded');
-                        filterIcon.classList.add('expanded');
-                    }
-                }
-            }
+
 
             showQuickActions() {
                 alert('Quick actions: Export data, Send review request, View settings');
